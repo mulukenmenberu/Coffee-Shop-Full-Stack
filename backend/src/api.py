@@ -10,7 +10,9 @@ from auth.auth import AuthError, requires_auth
 app = Flask(__name__)
 setup_db(app)
 CORS(app)
-
+allowed_to_save_drink = requires_auth('post:drinks')
+allowed_to_update_drink =  requires_auth('patch:drinks')
+allowed_to_delete_drink =  requires_auth('delete:drinks')
 '''
 @TODO uncomment the following line to initialize the datbase
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
@@ -52,7 +54,21 @@ def drink_list():
     returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
-
+@app.route('/drinks-detail', methods=['GET'])
+def drinks_details():
+    drinks = Drink.query.all()
+    #dd = Drink.short(d)
+   # print(d)
+    short_recipe = []
+    for drink in drinks:
+        #print (x.recipe)
+        short_recipe.append({           
+             'id': drink.id,
+            'title': drink.title,
+            'recipe': json.loads(drink.recipe) 
+            })
+ 
+    return jsonify({"success": True, "drinks": short_recipe}),200
 
 '''
 @TODO implement endpoint
@@ -64,6 +80,10 @@ def drink_list():
         or appropriate status code indicating reason for failure
 '''
 
+@app.route('/drinks', methods=['POST'])
+@allowed_to_save_drink
+def save_drink(payload):
+    return "payload"
 
 '''
 @TODO implement endpoint
@@ -76,7 +96,10 @@ def drink_list():
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the updated drink
         or appropriate status code indicating reason for failure
 '''
-
+@app.route('/drinks/<int:id>', methods=['PATCH'])
+@allowed_to_update_drink
+def update_drink(payload,id):
+    return "payload"
 
 '''
 @TODO implement endpoint
@@ -88,7 +111,10 @@ def drink_list():
     returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted record
         or appropriate status code indicating reason for failure
 '''
-
+@app.route('/drinks/<int:id>', methods=['DELETE'])
+@allowed_to_delete_drink
+def delete_drink(payload,id):
+    return "payload"
 
 # Error Handling
 '''
