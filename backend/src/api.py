@@ -83,7 +83,9 @@ def drinks_details():
 @app.route('/drinks', methods=['POST'])
 @allowed_to_save_drink
 def save_drink(payload):
+
     drink_data = request.get_json(force=True)
+    print(drink_data)
     drink = Drink(
         title=str(drink_data['title']).replace("'", "\""),
         recipe=str(drink_data['recipe']).replace("'", "\"")

@@ -48,40 +48,103 @@ flask run --reload
 
 The `--reload` flag will detect file changes and restart the server automatically.
 
-## Tasks
+### API Description 
 
-### Setup Auth0
-
-1. Create a new Auth0 Account
-2. Select a unique tenant domain
-3. Create a new, single page web application
-4. Create a new API
-   - in API Settings:
-     - Enable RBAC
-     - Enable Add Permissions in the Access Token
-5. Create new API permissions:
-   - `get:drinks`
-   - `get:drinks-detail`
-   - `post:drinks`
-   - `patch:drinks`
-   - `delete:drinks`
-6. Create new roles for:
-   - Barista
-     - can `get:drinks-detail`
-     - can `get:drinks`
-   - Manager
-     - can perform all actions
-7. Test your endpoints with [Postman](https://getpostman.com).
-   - Register 2 users - assign the Barista role to one and Manager role to the other.
-   - Sign into each account and make note of the JWT.
-   - Import the postman collection `./starter_code/backend/udacity-fsnd-udaspicelatte.postman_collection.json`
-   - Right-clicking the collection folder for barista and manager, navigate to the authorization tab, and including the JWT in the token field (you should have noted these JWTs).
-   - Run the collection and correct any errors.
-   - Export the collection overwriting the one we've included so that we have your proper JWTs during review!
-
-### Implement The Server
-
-There are `@TODO` comments throughout the `./backend/src`. We recommend tackling the files in order and from top to bottom:
-
-1. `./src/auth/auth.py`
-2. `./src/api.py`
+### Endponints accessed by GET Method 
+1.  /drinks
+      - gets list of available drinks
+      - Request Arguments: None
+      - Permissions: Public, Barista
+      - Returns JSON data like the following format 
+      ```json
+              {
+                  "drinks": [
+                     {
+                           "id": 1,
+                           "recipe": [
+                              {
+                                 "color": "blue",
+                                 "name": "water",
+                                 "parts": 1
+                              }
+                           ],
+                           "title": "water"
+                     }
+                  ],
+                  "success": true
+                  }
+      ```
+2.  /drinks-detail
+      - gets list of available drinks with details
+      - Request Arguments: None
+      - Permissions: Public, Barista
+      - Returns JSON data like the following format 
+      ```json
+            {
+               "drinks": [
+                  {
+                        "id": 1,
+                        "recipe": [
+                           {
+                              "color": "blue",
+                              "name": "water",
+                              "parts": 1
+                           }
+                        ],
+                        "title": "water"
+                  }
+               ],
+               "success": true
+            }
+      ```
+### Endponints accessed by POST Method 
+1.  /drinks
+      - added a new drink to the DB
+      - Request Arguments: 
+      ```json
+           {
+            "title": "test", 
+            "recipe": [{"name": "test", "color": "red","parts": 1}]
+            }
+       ```     
+      - Permissions: Manager
+      - Status code on Success: 200
+      - Returns JSON data like the following format 
+      ```json
+           {
+            "success": True, 
+            "drinks":  [array of drink data]
+            }
+      ```
+### Endponints accessed by PATCH Method 
+1.  /drinks/<int:id>
+      - this end point can be used to update drink details
+      - Request Arguments: drink ID and ...
+      ```json
+           {
+            "title": "test", 
+            "recipe": [{"name": "test", "color": "red","parts": 1}]
+            }
+       ```     
+      - Permissions: Manager
+      - Returns JSON data like the following format 
+      ```json
+           {
+            "success": True, 
+            "drinks":  [array of drink data]
+            }
+      ```
+      - status code on success: 200
+### Endponints accessed by DELETE Method 
+1.  /drinks/<int:id>
+      - this end point can be used to delete a drink
+      - Request Arguments: drink ID and ...
+      - Permissions: Manager
+      - Returns JSON data like the following format 
+      ```json
+           {
+            "success": True, 
+            "delete":  deleted drink id
+            }
+      ```
+      - status code on success: 200
