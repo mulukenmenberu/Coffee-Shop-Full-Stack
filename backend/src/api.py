@@ -61,7 +61,7 @@ def drinks_details():
    # print(d)
     short_recipe = []
     for drink in drinks:
-        #print (x.recipe)
+        print (drink.recipe)
         short_recipe.append({           
              'id': drink.id,
             'title': drink.title,
@@ -83,7 +83,13 @@ def drinks_details():
 @app.route('/drinks', methods=['POST'])
 @allowed_to_save_drink
 def save_drink(payload):
-    return "payload"
+    drink_data = request.get_json(force=True)
+    drink = Drink(
+        title=str(drink_data['title']).replace("'", "\""),
+        recipe=str(drink_data['recipe']).replace("'", "\"")
+    )
+    drink.insert()
+    return jsonify({"success": True, "drinks":  drink_data}),200
 
 '''
 @TODO implement endpoint
@@ -99,7 +105,14 @@ def save_drink(payload):
 @app.route('/drinks/<int:id>', methods=['PATCH'])
 @allowed_to_update_drink
 def update_drink(payload,id):
-    return "payload"
+    drink_data = request.get_json(force=True)
+    get_drink = Drink.query.get(id)
+    if not get_drink:
+        return jsonify({"success": False,"message":"Drink ID Not Found"}),404
+    get_drink.title=str(drink_data['title']).replace("'", "\"")
+    get_drink.recipe=str(drink_data['recipe']).replace("'", "\"")
+    get_drink.update()
+    return jsonify({"success": True, "drinks": "drink"}),200
 
 '''
 @TODO implement endpoint
@@ -114,7 +127,13 @@ def update_drink(payload,id):
 @app.route('/drinks/<int:id>', methods=['DELETE'])
 @allowed_to_delete_drink
 def delete_drink(payload,id):
-    return "payload"
+    drink = Drink.query.get(id)
+    if  not drink:
+        return jsonify({"message":"Drink not found"}), 404
+    drink.delete()
+
+    return jsonify({"success": True, "delete": id}), 200
+
 
 # Error Handling
 '''
@@ -146,11 +165,21 @@ def unprocessable(error):
 @TODO implement error handler for 404
     error handler should conform to general task above
 '''
-
+@app.errorhandler(404)
+def not_found(error):
+    return (jsonify({'success': False, 'error': 404,
+                        'message': 'resource not found'
+                    }), 404)
 
 '''
 @TODO implement error handler for AuthError
     error handler should conform to general task above
 '''
+@app.errorhandler(401)
+def auth_error(error):
+    return AuthError({
+            'code': 'authorization error',
+            'description': 'Authorization error. please check the token provided is correct'
+        }, 401)
 if __name__ == '__main__':
     app.run(host='127.0.0.1',port='5000')

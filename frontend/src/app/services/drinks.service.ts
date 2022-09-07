@@ -108,12 +108,16 @@ export class DrinksService {
   }
 
   saveDrink(drink: Drink) {
+    console.log(this.getHeaders())
     if (drink.id >= 0) { // patch
       this.http.patch(this.url + '/drinks/' + drink.id, drink, this.getHeaders())
       .subscribe( (res: any) => {
         if (res.success) {
-          this.drinksToItems(res.drinks);
+         if(res.drinks['title']){
+            this.drinksToItems(res.drinks);
+         }
         }
+        
       });
     } else { // insert
       this.http.post(this.url + '/drinks', drink, this.getHeaders())
@@ -121,6 +125,7 @@ export class DrinksService {
         if (res.success) {
           this.drinksToItems(res.drinks);
         }
+        
       });
     }
 
