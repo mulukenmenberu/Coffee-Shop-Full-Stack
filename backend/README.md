@@ -38,6 +38,10 @@ Each time you open a new terminal session, run:
 
 ```bash
 export FLASK_APP=api.py;
+export AUTH0_DOMAIN=dev--0iw-l86.us.auth0.com
+export ALGORITHMS=['RS256']
+export API_AUDIENCE=http://localhost:4200/
+
 ```
 
 To run the server, execute:

@@ -54,7 +54,7 @@ def drink_list():
 '''
 @app.route('/drinks-detail', methods=['GET'])
 @allowed_to_see_drink_detail
-def drinks_details():
+def drinks_details(payload):
     drinks = Drink.query.all()
     long_recipe = []
     for drink in drinks:
