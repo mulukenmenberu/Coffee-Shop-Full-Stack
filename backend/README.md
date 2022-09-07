@@ -54,7 +54,7 @@ The `--reload` flag will detect file changes and restart the server automaticall
 1.  /drinks
       - gets list of available drinks
       - Request Arguments: None
-      - Permissions: Public, Barista
+      - Permissions: Public
       - Returns JSON data like the following format 
       ```json
               {
@@ -77,7 +77,7 @@ The `--reload` flag will detect file changes and restart the server automaticall
 2.  /drinks-detail
       - gets list of available drinks with details
       - Request Arguments: None
-      - Permissions: Public, Barista
+      - Permissions: Barista
       - Returns JSON data like the following format 
       ```json
             {
