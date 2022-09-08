@@ -1,4 +1,5 @@
-# Coffee Shop Full Stack Udacity Fullstack NanoDegree Course Work
+# Coffee Shop Full Stack
+# **Udacity Fullstack NanoDegree Course Work ** 
  This is a full stack web application with Ionic frontend and Flask Backend. It allows to add:-
     1. Display graphics representing the ratios of ingredients in each drink.
     2. Allow public users to view drink names and graphics.
