@@ -61,12 +61,20 @@ def drinks_details(payload):
 @app.route('/drinks', methods=['POST'])
 @allowed_to_save_drink
 def save_drink(payload):
-    drink_data = request.get_json(force=True)
+    try:
+        drink_data = request.get_json(force=True)
+    except:
+        return jsonify({"success": False, "message": "invalid request, please check your inputs"}), 400
+    if not drink_data['title']  or len(drink_data)<=0:
+        return jsonify({"success": False, "message": "invalid request"}), 400
     drink = Drink(
         title=str(drink_data['title']).replace("'", "\""),
         recipe=str(drink_data['recipe']).replace("'", "\"")
     )
-    drink.insert()
+    try:
+        drink.insert()
+    except:
+        return jsonify({"success": False, "message": "invalid request, please check your inputs"}), 400
     drink_long_reprentation = drink.long()
     return jsonify({"success": True, "drinks": [drink_long_reprentation]}), 200
 
@@ -127,7 +135,6 @@ def auth_error(error):
         'code': 'authorization error',
         'description': 'Authorization error. please check the token provided is correct'
     }, 401)
-
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port='5000')

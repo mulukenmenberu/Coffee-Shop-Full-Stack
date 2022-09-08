@@ -22,7 +22,7 @@ export class AuthService {
 
   build_login_link(callbackPath = '') {
     let link = 'https://';
-    link += this.url + 'dev--0iw-l86.us.auth0.com';
+    link += this.url;
     link += '/authorize?';
     link += 'audience=' + this.audience + '&';
     link += 'response_type=token&';

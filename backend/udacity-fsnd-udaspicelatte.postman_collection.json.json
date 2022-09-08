@@ -238,7 +238,12 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": " {\n     \"title\":\"coffee\",\n      \"recipe\": \"[{'name': 'coffe', 'color': 'red', 'parts': 1}]\"\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "http://127.0.0.1:5000/drinks",

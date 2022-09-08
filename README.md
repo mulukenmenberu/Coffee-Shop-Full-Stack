@@ -9,6 +9,63 @@
 
     - Manager Login:  coffee-admin@gmail.com C0fee4563
     - Barista Login:  coffee-barista@gmail.com Birista4563
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 ### Postman collection found under backend folder
 ### Backend
